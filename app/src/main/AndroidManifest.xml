@@ -10,7 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieApp">
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.DetailActivity"
+            android:exported="false"
+            android:parentActivityName=".presentation.MainActivity"/>
+        <activity
+            android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
