@@ -1,43 +1,36 @@
 package com.miko.movieapp.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.miko.movieapp.utils.convertStringToModel
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.google.android.material.navigation.NavigationView
+import com.miko.movieapp.R
 import com.miko.movieapp.databinding.ActivityMainBinding
-import com.miko.movieapp.presentation.model.Movie
-import com.miko.movieapp.utils.readJson
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var movieAdapter: MovieAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        movieAdapter = MovieAdapter(
-            items = convertStringToModel(readJson("response.json")).toMutableList(),
-            onItemClickedCallback = object : MovieAdapter.OnItemClickedCallback{
-                override fun onItemClicked(data: Movie) {
-                    DetailActivity.start(this@MainActivity, data)
+        with(binding) {
+            bnvMain.apply {
+                setOnItemSelectedListener {
+                    val fragment: Fragment = when (it.itemId) {
+                        R.id.menu_movie -> {
+                            MovieFragment.newInstance()
+                        }
+                        R.id.menu_tv_series -> {
+                            TvSeriesFragment.newInstance()
+                        }
+                        else -> throw IllegalStateException("Menu id unknown")
+                    }
+                    supportFragmentManager.beginTransaction().replace(R.id.mainContainer, fragment).commit()
+                    true
                 }
-            }
-        )
-
-        initRecyclerView()
-    }
-
-    private fun initRecyclerView() {
-        with(binding){
-            rvSearch.apply {
-                layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
-                adapter = movieAdapter
-                addItemDecoration(
-                    DividerItemDecoration(this@MainActivity, DividerItemDecoration.VERTICAL)
-                )
+                selectedItemId = R.id.menu_movie
             }
         }
     }

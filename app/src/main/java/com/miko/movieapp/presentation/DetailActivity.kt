@@ -7,11 +7,13 @@ import android.os.Bundle
 import com.miko.movieapp.R
 import com.miko.movieapp.databinding.ActivityDetailBinding
 import com.miko.movieapp.presentation.model.Movie
+import com.miko.movieapp.presentation.model.TvSeries
 
 class DetailActivity : AppCompatActivity() {
 
     companion object{
-        const val MOVIE_EXTRA = "movie_extra"
+        private const val MOVIE_EXTRA = "movie_extra"
+        private const val TV_SERIES_EXTRA = "tv_series_extra"
 
         @JvmStatic
         fun start(context: Context, data: Movie) {
@@ -20,9 +22,17 @@ class DetailActivity : AppCompatActivity() {
                 .putExtra(MOVIE_EXTRA, data)
             context.startActivity(starter)
         }
+
+        fun start(context: Context, data: TvSeries) {
+
+            val starter = Intent(context, DetailActivity::class.java)
+                .putExtra(TV_SERIES_EXTRA, data)
+            context.startActivity(starter)
+        }
     }
     private lateinit var binding: ActivityDetailBinding
-    private lateinit var movie: Movie
+    private var movie: Movie? = null
+    private var tvSeries: TvSeries? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +40,11 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initIntent()
-        setMovie(movie)
+        if(movie != null){
+            setMovie(movie!!)
+        }else{
+            setTvSeries(tvSeries!!)
+        }
     }
 
     private fun setMovie(movie: Movie) {
@@ -42,7 +56,17 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun setTvSeries(tvSeries: TvSeries) {
+        with(binding){
+            supportActionBar?.title = tvSeries.name
+            imgPoster.setImageResource(R.drawable.ic_baseline_image_24)
+            tvTitle.text = tvSeries.name
+            tvOverview.text = tvSeries.overview
+        }
+    }
+
     private fun initIntent() {
-        movie = intent.getParcelableExtra(MOVIE_EXTRA)!!
+        movie = intent.getParcelableExtra(MOVIE_EXTRA)
+        tvSeries = intent.getParcelableExtra(TV_SERIES_EXTRA)
     }
 }

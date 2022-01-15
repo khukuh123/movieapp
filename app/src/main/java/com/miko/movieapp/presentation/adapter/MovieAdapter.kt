@@ -1,4 +1,4 @@
-package com.miko.movieapp.presentation
+package com.miko.movieapp.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
