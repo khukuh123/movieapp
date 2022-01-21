@@ -1,9 +1,10 @@
 package com.miko.movieapp.presentation
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.google.android.material.navigation.NavigationView
 import com.miko.movieapp.R
 import com.miko.movieapp.databinding.ActivityMainBinding
 
@@ -33,5 +34,19 @@ class MainActivity : AppCompatActivity() {
                 selectedItemId = R.id.menu_movie
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_about -> AboutActivity.start(this)
+            R.id.menu_settings -> SettingsActivity.start(this)
+            else -> throw IllegalStateException("Menu id unknown")
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
