@@ -3,9 +3,11 @@ package com.miko.movieapp.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.miko.movieapp.R
 import com.miko.movieapp.databinding.ItemTvSeriesBinding
 import com.miko.movieapp.presentation.model.TvSeries
+import com.miko.movieapp.utils.Const
 
 class TvSeriesAdapter(
     private val items: MutableList<TvSeries> = mutableListOf(),
@@ -16,7 +18,7 @@ class TvSeriesAdapter(
     inner class TvSeriesViewHolder(private val binding: ItemTvSeriesBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: TvSeries) {
             this.binding.apply {
-                imgPoster.setImageResource(R.drawable.ic_baseline_image_24)
+                Glide.with(root.context).load("${Const.baseImagerUrl}${data.backdropPath}").error(R.drawable.ic_baseline_image_24).into(imgPoster)
                 tvTitle.text = data.name
                 root.setOnClickListener {
                     onItemClickedCallback?.onItemClicked(data)
@@ -36,7 +38,7 @@ class TvSeriesAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    fun setItems(items: MutableList<TvSeries>) {
+    fun setItems(items: List<TvSeries>) {
         this.items.apply {
             clear()
             addAll(items)

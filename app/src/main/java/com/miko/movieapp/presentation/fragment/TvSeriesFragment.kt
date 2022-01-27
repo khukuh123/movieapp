@@ -1,17 +1,23 @@
-package com.miko.movieapp.presentation
+package com.miko.movieapp.presentation.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.miko.movieapp.databinding.FragmentTvSeriesBinding
+import com.miko.movieapp.network.RemoteDataSource
+import com.miko.movieapp.network.response.TvSeriesResponse
+import com.miko.movieapp.presentation.activity.DetailActivity
 import com.miko.movieapp.presentation.adapter.TvSeriesAdapter
 import com.miko.movieapp.presentation.model.TvSeries
-import com.miko.movieapp.utils.convertStringToTvSeries
-import com.miko.movieapp.utils.readJson
+import com.miko.movieapp.utils.Mapper
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class TvSeriesFragment : Fragment() {
 
@@ -37,7 +43,6 @@ class TvSeriesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         tvSeriesAdapter = TvSeriesAdapter(
-            items = convertStringToTvSeries(requireContext().readJson("tv_series.json")).toMutableList(),
             onItemClickedCallback = object : TvSeriesAdapter.OnItemClickedCallback {
                 override fun onItemClicked(data: TvSeries) {
                     DetailActivity.start(requireContext(), data)
@@ -46,6 +51,18 @@ class TvSeriesFragment : Fragment() {
         )
 
         initRecyclerView()
+
+        RemoteDataSource.getInstance().getTvSeries().enqueue(object : Callback<TvSeriesResponse>{
+            override fun onResponse(call: Call<TvSeriesResponse>, response: Response<TvSeriesResponse>) {
+                response.body()?.let {
+                    tvSeriesAdapter.setItems(Mapper.toTvSeries(it))
+                }
+            }
+
+            override fun onFailure(call: Call<TvSeriesResponse>, t: Throwable) {
+                Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun initRecyclerView() {

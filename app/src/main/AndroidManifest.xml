@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.miko.movieapp">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,19 +12,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieApp">
         <activity
-            android:name=".presentation.SettingsActivity"
+            android:name=".presentation.activity.SettingsActivity"
             android:exported="false"
-            android:parentActivityName=".presentation.MainActivity"/>
+            android:parentActivityName=".presentation.activity.MainActivity"/>
         <activity
-            android:name=".presentation.AboutActivity"
+            android:name=".presentation.activity.AboutActivity"
             android:exported="false"
-            android:parentActivityName=".presentation.MainActivity" />
+            android:parentActivityName=".presentation.activity.MainActivity" />
         <activity
-            android:name=".presentation.DetailActivity"
+            android:name=".presentation.activity.DetailActivity"
             android:exported="false"
-            android:parentActivityName=".presentation.MainActivity" />
+            android:parentActivityName=".presentation.activity.MainActivity" />
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

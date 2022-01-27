@@ -1,4 +1,4 @@
-package com.miko.movieapp.presentation
+package com.miko.movieapp.presentation.activity
 
 import android.content.Context
 import android.content.Intent

@@ -1,4 +1,4 @@
-package com.miko.movieapp.presentation
+package com.miko.movieapp.presentation.activity
 
 import android.os.Bundle
 import android.view.Menu
@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.miko.movieapp.R
 import com.miko.movieapp.databinding.ActivityMainBinding
+import com.miko.movieapp.presentation.fragment.MovieFragment
+import com.miko.movieapp.presentation.fragment.TvSeriesFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
